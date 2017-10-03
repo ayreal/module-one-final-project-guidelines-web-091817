@@ -1,13 +1,21 @@
 # Welcome message
-def welcome
-  puts "Welcome! Find the best free events near you!"
-  puts "What is your name?"
-  response = gets.chomp
-end
+class CLI
 
-# User action: input name
-def
+  def welcome
+    puts "Welcome! Find the best free events near you!"
+    get_user_name
+  end
 
+  def get_user_name
+    puts "What is your name?"
+    response = gets.chomp
+    @user = User.new(response)
+  end
+
+
+# def user_selection
+#   puts "Okay #{user[:name]}, please enter your zipcode:"
+#   response
 # User action:  find new events, save event, view saved events, exit
 
 # find events
@@ -24,3 +32,4 @@ def
 # delete event from favorites
 
 # Exit message
+end

@@ -20,10 +20,10 @@ class Adapter
     JSON.parse(RestClient.get("#{ROUTE}#{"dance"}#{self.get_nearby_events_this_week}"))["events"]
   end
 
-#   def get_events_hashes
-#     self.get_events_ary.collect {|ary| ary}
-#   end
-# end
+  def get_events_hashes
+    self.get_events_ary.collect {|ary| ary}
+  end
+end
 
 
 a1 = Adapter.new

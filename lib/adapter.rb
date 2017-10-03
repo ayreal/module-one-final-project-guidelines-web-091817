@@ -1,8 +1,3 @@
-
-require 'rest-client'
-require 'json'
-require 'pry'
-
 class Adapter
   attr_accessor :path
 
@@ -26,6 +21,6 @@ class Adapter
 end
 
 
-a1 = Adapter.new
-a1.get_events_hashes
+# a1 = Adapter.new
+# a1.get_events_hashes
 # Pry.start

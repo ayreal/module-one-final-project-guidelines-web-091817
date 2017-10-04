@@ -3,10 +3,10 @@ class Event < ActiveRecord::Base
 
   def self.find_events_hash(user_keyword, user_zipcode)
     events_hash = Adapter.get_events_hash(user_keyword, user_zipcode.name)
-    binding.pry
-    events_hash.map do |e|
+    cat = events_hash.map do |e|
       events = Event.find_or_initialize_by(e[:name][:text], e[:start][:local], e[:id], e[:description][:text])
     end
+    cat
   end
 
 

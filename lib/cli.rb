@@ -35,7 +35,7 @@ class CLI
     puts "Please enter a 5-digit zipcode:"
     response = gets.chomp
       if response.length == 5 && response.to_i != 0
-        @location = Location.find_or_create_by(name: response)
+        @location = Location.find_or_create_by(name: response) #ZIPCODE
         user_event_choices(@location)
       else
         puts "That is not a valid zipcode"
@@ -54,7 +54,6 @@ class CLI
 
     puts "Here are some #{user_keyword} events this week near #{@location.name}:" # add .name
     events_hash = Event.find_events_hash(user_keyword, @location)
-    binding.pry
     Event.display_events(events_hash)
     user_save_options
   end

@@ -1,5 +1,4 @@
 class Adapter
-  attr_accessor :path
 
   ROUTE = "https://www.eventbriteapi.com/v3/events/search/?q="
 
@@ -7,20 +6,21 @@ class Adapter
     ROUTE
   end
 
-  def get_nearby_events_this_week
-    "&sort_by=best&location.within=4mi&location.latitude=40.705215&location.longitude=-74.014252&price=free&start_date.keyword=this_week&token=5WKCC44KCNXWDUR6TWQK"
+  def self.get_events_hash(event_type, location)
+    route = "#{ROUTE}#{event_type}&sort_by=best&location.address=#{location}&location.within=4mi&price=free&start_date.keyword=this_week&token=5WKCC44KCNXWDUR6TWQK"
+    response = RestClient.get(route)
+    JSON.parse(response)["events"]
   end
 
-  def get_events_ary  #beer will be replaced by a user input
-    JSON.parse(RestClient.get("#{ROUTE}#{"dance"}#{self.get_nearby_events_this_week}"))["events"]
-  end
+#
+#   e = Event.new("name", "area", "time", 8, "descccc")
+#
+#  def self.import
+#   get_events_hash.map do |e|
+#     events = Event.new(e[:name][:text], e[:start][:timezone], e[:start][:local], e[:id], e[:description][:text])
+#     end
+#   end
+# end
 
-  def get_events_hashes
-    self.get_events_ary.collect {|ary| ary}
-  end
+
 end
-
-
-# a1 = Adapter.new
-# a1.get_events_hashes
-# Pry.start

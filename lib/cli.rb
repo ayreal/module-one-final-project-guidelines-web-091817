@@ -33,12 +33,12 @@ class CLI
   def get_user_zipcode
     puts "Please enter a zipcode:"
     response = gets.chomp
-    #@user.location = response
+    @user.zipcode = response
     user_event_choices
   end
 
   def user_event_choices
-    puts "Here are some free event categories this week near" #{@user.location}:"
+    puts "Here are some free event categories this week near #{@user.zipcode}:"
     puts "Please make a selection from the following:"
     puts "1. Dance 2. Beer 3. Music 4. Exit"
     response = gets.chomp
@@ -58,16 +58,61 @@ class CLI
   end
 
   def display_dance_events
-    ### HERE
-    dance_hash = Adapter.get_dance_hash
+    dance_hash = Adapter.get_dance_events(@user.zipcode)
+    # parse the events
+    #display options
+    puts "1. #{event1.name}"
+    puts "2. #{event2.name}"
+    puts "3. #{event3.name}"
+    puts "4. #{event4.name}"
+    puts "5. #{event5.name}"
+    user_save_options
   end
 
   def display_beer_events
     binding.pry
   end
 
+  def display_saved_events
+
+  end
+
+  def user_save_options
+    puts "Select an event number to save (1-5), type 'new events', or type 'exit'"
+    response = gets.chomp
+    case response
+    when "1"
+      # persist this data to the DB
+      save_success_message
+    when "2"
+
+    when "3"
+
+    when "4"
+
+    when "5"
+
+    when "new events"
+      user_event_choices
+    when "exit"
+      goodbye
+    else
+      puts "That option is not valid"
+      user_save_options
+    end
+  end
+
+  def save_success_message
+    puts "You have saved this event to your favorites"
+    get_user_selection
+  end
 
   def display_saved_events
+    #@user.saved_events
+
+  end
+
+  def method_name
 
   end
 

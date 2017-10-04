@@ -12,10 +12,9 @@ class Adapter
     JSON.parse(response)["events"]
   end
 
-#
-#   e = Event.new("name", "area", "time", 8, "descccc")
-#
+
 #  def self.import
+#   e = Event.new("name", "area", "time", 8, "descccc")
 #   get_events_hash.map do |e|
 #     events = Event.new(e[:name][:text], e[:start][:timezone], e[:start][:local], e[:id], e[:description][:text])
 #     end

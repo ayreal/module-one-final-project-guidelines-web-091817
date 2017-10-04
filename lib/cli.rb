@@ -28,6 +28,7 @@ class CLI
     else
       puts "That option is not valid"
       get_user_selection
+      #calls on itself?
     end
   end
 
@@ -40,6 +41,7 @@ class CLI
       else
         puts "That is not a valid zipcode"
         get_user_location
+        #calls on itself
       end
   end
 
@@ -52,14 +54,16 @@ class CLI
 
   def display_events(user_keyword)
 
-    puts "Here are some #{user_keyword} events this week near #{@location.name}:" # add .name
-    events_hash = Event.find_events_hash(user_keyword, @location)
-    Event.display_events(events_hash)
-    user_save_options
+    puts "Here are some #{user_keyword} events this week near #{@location.name}:"
+    Event.display_events(user_keyword, @location)
+
   end
 
   def display_saved_events
-
+    #
+    # events_hash = Event.find_events_hash(user_keyword, @location)
+    # Event.display_events(events_hash)
+    # user_save_options
   end
 
   def user_save_options

@@ -1,1 +1,0 @@
-EVENTS = Adapter.import

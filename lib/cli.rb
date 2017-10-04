@@ -1,4 +1,3 @@
-# Welcome message
 class CLI
 
   def welcome

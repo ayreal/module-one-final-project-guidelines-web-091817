@@ -1,5 +1,4 @@
 class CLI
-
   def welcome
     puts "Welcome! Find the best free events this week near you!"
     get_user_name
@@ -8,13 +7,14 @@ class CLI
   def get_user_name
     puts "What is your name?"
     response = gets.chomp
-    @user = User.new(response)
+    @user = User.find_or_create_by(name: response)  #WE HAVE MULTIPLE USERS NOW -- user_location_table?
     get_user_selection
   end
 
   def get_user_selection
-    puts "Okay #{@user.name}, what would you like to do?"
-    puts "1. Find New Events 2. View Saved Events 3. Exit"
+
+    puts "Okay #{@user.name}, what would you like to do next?"
+    puts "1. Find New Events 2. View Your Events 3. Exit"
     response = gets.chomp
     case response
     when "1"
@@ -23,6 +23,8 @@ class CLI
       display_saved_events
     when "3"
       goodbye
+    when "exit".downcase == "exit"
+      goodbye
     else
       puts "That option is not valid"
       get_user_selection
@@ -30,30 +32,30 @@ class CLI
   end
 
   def get_user_location
-    puts "Please enter a zipcode:"
+    puts "Please enter a 5-digit zipcode:"
     response = gets.chomp
-    @user.location = response
-    user_event_choices
+      if response.length == 5 && response.to_i != 0
+        @location = Location.find_or_create_by(name: response)
+        user_event_choices(@location)
+      else
+        puts "That is not a valid zipcode"
+        get_user_location
+      end
   end
 
-  def user_event_choices
-    puts "Great! Let's find free events this week near #{@user.location}!"
+  def user_event_choices(location)
+    puts "Great! Let's find free events this week near #{@location.name}!"  #need to add .name method to Location
     puts "Please enter a keyword for the type of event you're looking for:"
     response = gets.chomp
-    @user.event_type = response
-    display_events
+    display_events(response)
   end
 
-  def display_events
-    puts "Here are some #{@user.event_type} events this week #{@user.location}:"
-    dance_hash = Adapter.get_events_hash(@user.event_type, @user.location)
-    # parse the events
-    #display options
-    puts "1. #{event1.name}"
-    puts "2. #{event2.name}"
-    puts "3. #{event3.name}"
-    puts "4. #{event4.name}"
-    puts "5. #{event5.name}"
+  def display_events(user_keyword)
+
+    puts "Here are some #{user_keyword} events this week near #{@location.name}:" # add .name
+    events_hash = Event.find_events_hash(user_keyword, @location)
+    binding.pry
+    Event.display_events(events_hash)
     user_save_options
   end
 
@@ -87,7 +89,7 @@ class CLI
   end
 
   def save_success_message
-    puts "You have saved this event to your favorites"
+    puts "You have saved this event to your favorites."
     get_user_selection
   end
 
@@ -105,19 +107,19 @@ class CLI
     exit
   end
 
-
+#
 # find events
 # User action: select interest (5 options)
-
+#
 # Show a list of the free events
-
+#
 # User action: find new events, save event, view saved events, exit
-
+#
 # save event to favorites
-
+#
 # view saved events
-
+#
 # delete event from favorites
-
+#
 # Exit message
 end

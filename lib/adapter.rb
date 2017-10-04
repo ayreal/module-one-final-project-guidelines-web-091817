@@ -6,20 +6,12 @@ class Adapter
     ROUTE
   end
 
-  def self.get_events_hash(user_event_type, user_location)
-    route = "#{ROUTE}#{user_event_type}&sort_by=best&location.address=#{user_location}&location.within=4mi&price=free&start_date.keyword=this_week&token=5WKCC44KCNXWDUR6TWQK"
+  def self.get_events_hash(user_keyword, user_zipcode)
+    route = "#{ROUTE}#{user_keyword}&sort_by=best&location.address=#{user_zipcode}&location.within=4mi&price=free&start_date.keyword=this_week&token=5WKCC44KCNXWDUR6TWQK"
     response = RestClient.get(route)
     JSON.parse(response)["events"]
   end
 
-
-#  def self.import
-#   e = Event.new("name", "area", "time", 8, "descccc")
-#   get_events_hash.map do |e|
-#     events = Event.new(e[:name][:text], e[:start][:timezone], e[:start][:local], e[:id], e[:description][:text])
-#     end
-#   end
-# end
-
-
 end
+
+# a = Adapter.import("beer", "11221")

@@ -19,7 +19,7 @@ class CLI
     response = gets.chomp
     case response
     when "1"
-      get_user_zipcode
+      get_user_location
     when "2"
       display_saved_events
     when "3"
@@ -30,35 +30,24 @@ class CLI
     end
   end
 
-  def get_user_zipcode
+  def get_user_location
     puts "Please enter a zipcode:"
     response = gets.chomp
-    @user.zipcode = response
+    @user.location = response
     user_event_choices
   end
 
   def user_event_choices
-    puts "Here are some free event categories this week near #{@user.zipcode}:"
-    puts "Please make a selection from the following:"
-    puts "1. Dance 2. Beer 3. Music 4. Exit"
+    puts "Great! Let's find free events this week near #{@user.location}!"
+    puts "Please enter a keyword for the type of event you're looking for:"
     response = gets.chomp
-    case response
-    when "1"
-      display_dance_events
-    when "2"
-      display_beer_events
-    when "3"
-      display_music_events
-    when "exit"
-      exit
-    else
-      puts "That option is not valid"
-      user_event_choices
-    end
+    @user.event_type = response
+    display_events
   end
 
-  def display_dance_events
-    dance_hash = Adapter.get_dance_events(@user.zipcode)
+  def display_events
+    puts "Here are some #{@user.event_type} events this week #{@user.location}:"
+    dance_hash = Adapter.get_events_hash(@user.event_type, @user.location)
     # parse the events
     #display options
     puts "1. #{event1.name}"
@@ -67,10 +56,6 @@ class CLI
     puts "4. #{event4.name}"
     puts "5. #{event5.name}"
     user_save_options
-  end
-
-  def display_beer_events
-    binding.pry
   end
 
   def display_saved_events

@@ -1,3 +1,3 @@
 class Event < ActiveRecord::Migration
-  belongs_to :locations
+  # belongs_to :locations
 end

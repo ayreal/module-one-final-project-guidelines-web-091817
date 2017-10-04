@@ -6,8 +6,8 @@ class Adapter
     ROUTE
   end
 
-  def self.get_events_hash(event_type, location)
-    route = "#{ROUTE}#{event_type}&sort_by=best&location.address=#{location}&location.within=4mi&price=free&start_date.keyword=this_week&token=5WKCC44KCNXWDUR6TWQK"
+  def self.get_events_hash(user_event_type, user_location)
+    route = "#{ROUTE}#{user_event_type}&sort_by=best&location.address=#{user_location}&location.within=4mi&price=free&start_date.keyword=this_week&token=5WKCC44KCNXWDUR6TWQK"
     response = RestClient.get(route)
     JSON.parse(response)["events"]
   end

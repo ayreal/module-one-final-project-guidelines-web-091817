@@ -122,3 +122,5 @@ class CLI
 #
 # Exit message
 end
+
+# CLI.new.welcome

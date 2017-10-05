@@ -35,7 +35,8 @@ class CLI
     puts "Please enter a 5-digit zipcode:"
     response = gets.chomp
       if response.length == 5 && response.to_i != 0
-        @location = Location.find_or_create_by(name: response) # "location" - ZIPCODE, a Location unstance
+        name = Adapter.get_location_hash_from_zipcode(response)
+        @location = Location.find_or_create_by(name: name, zipcode: response) # "location" - ZIPCODE, a Location unstance
         get_user_interest(@location)
       else
         puts "That is not a valid zipcode"

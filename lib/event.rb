@@ -23,9 +23,9 @@ class Event < ActiveRecord::Base
     id = 0
     events.map do |event|
       # Print out the results to the user
-      puts "#{count}. #{event.name} :
-      (#{event.date}) #{event.description.slice(0,130).gsub("\n", ' ').squeeze(' ')} ..."
-      puts " "
+      "#{count}. #{event.name} :
+      (#{event.date}) #{event.description.slice(0,130).gsub("\n", ' ').squeeze(' ')} ...".yellow
+      puts "\n===========================================================================\n".magenta
       id = event.id
       count += 1
         # break if count > 5

@@ -10,4 +10,7 @@ class User < ActiveRecord::Base
     end
   end
 
+  def delete_saved_event
+  end
+
 end

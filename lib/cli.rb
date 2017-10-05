@@ -12,9 +12,8 @@ class CLI
   end
 
   def get_user_selection
-
     puts "Okay #{@user.name}, what would you like to do next?"
-    puts "1. Find New Events 2. View Your Events 3. Exit"
+    puts "1. Find New Events 2. View Your Events 3. Delete An Event 4. Exit"
     response = gets.chomp
     case response
     when "1"
@@ -22,6 +21,9 @@ class CLI
     when "2"
       display_saved_events
     when "3"
+      display_saved_events
+      delete_saved_event
+    when "4"
       goodbye
     when "exit".downcase == "exit"
       goodbye
@@ -64,21 +66,31 @@ class CLI
     response = gets.chomp
     case response
     when "new events"
-      # persist this data to the DB
       get_user_location
     when "exit"
       goodbye
     else
-      event = Event.find_by_name(response.upcase)
+      ## move this into the User class
+      event = Event.where("name like ?", "%#{response.upcase}%").first
       @user.events << event
       save_success_message
     end
   end
 
-  def save_success_message
+  def count
     count = @user.events.count
-    puts "You have saved this event to your favorites."
     puts "You now have #{count} event(s) saved."
+  end
+
+  def save_success_message
+    puts "You have saved this event to your favorites."
+    count
+    get_user_selection
+  end
+
+  def delete_success_message
+    puts "You have deleted this event from your favorites."
+    count
     get_user_selection
   end
 
@@ -87,24 +99,17 @@ class CLI
     get_user_selection
   end
 
+  def delete_saved_event
+    puts "Write the name of the event you'd like to remove"
+    response = gets.chomp
+    ## move this into the User class
+    @user.delete_saved_event
+    delete_success_message
+  end
+
   def goodbye
     puts "Enjoy your week!"
     exit
   end
 
-#
-# find events
-# User action: select interest (5 options)
-#
-# Show a list of the free events
-#
-# User action: find new events, save event, view saved events, exit
-#
-# save event to favorites
-#
-# view saved events
-#
-# delete event from favorites
-#
-# Exit message
 end

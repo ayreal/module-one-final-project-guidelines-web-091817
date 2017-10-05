@@ -1,5 +1,6 @@
 class Event < ActiveRecord::Base
-  belongs_to :location
+  has_many :user_events
+  has_many :users, through: :user_events
 
   def self.generate_events(user_keyword, location_obj)
     # CLEAN UP CODE

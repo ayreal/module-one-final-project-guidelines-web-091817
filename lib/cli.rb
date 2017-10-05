@@ -70,8 +70,7 @@ class CLI
       goodbye
     else
       ## move this into the User class
-      event = Event.where("name like ?", "%#{response.upcase}%").first
-      @user.events << event
+      @user.save_event_to_list(response)
       save_success_message
     end
   end
@@ -94,16 +93,17 @@ class CLI
   end
 
   def manage_events
+    @user.display_saved_events
     puts "Select a number to continue."
-    puts "1. View Saved Events 2. Delete A Saved Event 3. Find New Events"
+    puts "1. Delete A Saved Event 2. Find New Events 3. Exit"
     response = gets.chomp
     case response
     when "1"
-      display_saved_events
-    when "2"
       delete_saved_event
-    when "3"
+    when "2"
       get_user_selection
+    when "3"
+      delete_saved_event
     when "exit".downcase == "exit"
       goodbye
     else
@@ -118,11 +118,10 @@ class CLI
   end
 
   def delete_saved_event
-    binding.pry
     puts "Write the name of the event you'd like to remove"
     response = gets.chomp
     ## move this into the User class
-    @user.delete_saved_event
+    @user.delete_saved_event(response)
     delete_success_message
   end
 

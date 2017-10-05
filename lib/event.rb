@@ -10,8 +10,7 @@ class Event < ActiveRecord::Base
       name = event_hash["name"]["text"].upcase
       date = event_hash["start"]["local"].slice(0,10)
       description = event_hash["description"]["text"]
-      e = Event.find_or_create_by(name: name, location_id: location_obj.id, date: date, description: description)
-      e.keyword = user_keyword
+      e = Event.find_or_create_by(name: name, date: date, description: description)
       events << e
     end
     events

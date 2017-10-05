@@ -11,12 +11,16 @@ class User < ActiveRecord::Base
   end
 
   def delete_saved_event(response)
-    event = Event.where("name like ?", "%#{response.upcase}%").first
+    # check if the response is in the saved events
+    # binding.pry
+    response = response.upcase
+    event = Event.where("name like ?", "%#{response}%").first
     self.events.find(event.id).destroy
   end
 
   def save_event_to_list(response)
-    event = Event.where("name like ?", "%#{response.upcase}%").first
+    response = response.upcase
+    event = Event.where("name like ?", "%#{response}%").first
     self.events << event
   end
 

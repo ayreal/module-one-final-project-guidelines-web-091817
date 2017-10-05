@@ -19,15 +19,11 @@ class Event < ActiveRecord::Base
 
   def self.display_events(events)
     # keyword is a string, user_zipcode is a location obj
-    # SELECT * from events where location_id: location_obj.id and keyword: user_keyword
-    # THIS NEEDS TO GENERATE AN ARRAY...DEBUG SQLQUERY
-# binding.pry
     count = 1
     events.map do |event|
       # Print out the results to the user
-      puts "#{count}. #{event.name}"
-      puts " "
-      puts "#{event.description.slice(0,120)} ..."
+      puts "#{count}. #{event.name} :
+      #{event.description.slice(0,130).gsub("\n", ' ').squeeze(' ')} ..."
       puts " "
       count += 1
     end

@@ -36,7 +36,7 @@ class CLI
     response = gets.chomp
       if response.length == 5 && response.to_i != 0
         @location = Location.find_or_create_by(zipcode: response) # "location" - ZIPCODE, a Location unstance
-        @location.get_name_from_zipcode(response)
+        @location.get_name_from_zipcode(response) if @location.name == nil
         get_user_interest(@location)
       else
         puts "That is not a valid zipcode"
@@ -49,17 +49,17 @@ class CLI
     puts "Great! Let's find free events this week near #{location.name}!"
     puts "Please enter a keyword for the type of event you're looking for:"
     response = gets.chomp
-    generate_events(response, location)
+    Event.generate_events(response, location)
   end
 
   def generate_events(user_keyword, location)
-    puts "Here are some #{user_keyword} events this week near #{location.name}:"
     Event.generate_events(user_keyword, location)
     display_events(user_keyword, location)
   end
 
-  def display_events(user_keyword, location)
-    Event.display_events(user_keyword, location)  # this method puts out event choices
+  def display_events(events)
+    puts "Here are some #{user_keyword} events this week near #{location.name}:"
+    Event.display_events(events)  # this method puts out event choices
   end
 
   def user_save_options

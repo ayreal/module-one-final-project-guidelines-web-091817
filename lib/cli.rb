@@ -32,16 +32,15 @@ class CLI
   end
 
   def get_user_location
-    puts "Please enter a 5-digit zipcode:"
+    puts "Please enter a 5-digit zipcode:"  # fragile -- certain zips have different data
     response = gets.chomp
       if response.length == 5 && response.to_i != 0
-        @location = Location.find_or_create_by(zipcode: response) # "location" - ZIPCODE, a Location unstance
+        @location = Location.find_or_create_by(zipcode: response)
         @location.get_name_from_zipcode(response) if @location.name == nil
         get_user_interest(@location)
       else
         puts "That is not a valid zipcode"
         get_user_location
-        #Return to beginng of function
       end
   end
 
@@ -57,50 +56,49 @@ class CLI
     # binding.pry
     puts "Here are some #{response} events this week near #{location.name}:"
     Event.display_events(events)  # this method puts out event choices
-    user_save_options
-  end
-
-  def user_save_options
-    puts "Select an event number to save (1-5), type 'new events', or type 'exit'"
-    response = gets.chomp
-    case response
-    when "1"
-      # persist this data to the DB
-      save_success_message
-    when "2"
-
-    when "3"
-
-    when "4"
-
-    when "5"
-
-    when "new events"
-      user_event_choices
-    when "exit"
-      goodbye
-    else
-      puts "That option is not valid"
-      user_save_options
-    end
-  end
-
-  def save_success_message
-    puts "You have saved this event to your favorites."
+    #user_save_options
     get_user_selection
   end
 
-  def display_saved_events
-    #@user.saved_events
+  # def user_save_options
+  #   puts "Select an event number to save (1-5), type 'new events', or type 'exit'"
+  #   response = gets.chomp
+  #   case response
+  #   when "1"
+  #     # persist this data to the DB
+  #     save_success_message
+  #   when "2"
+  #
+  #   when "3"
+  #
+  #   when "4"
+  #
+  #   when "5"
+  #
+  #   when "new events"
+  #     user_event_choices
+  #   when "exit"
+  #     goodbye
+  #   else
+  #     puts "That option is not valid"
+  #     user_save_options
+  #   end
+  # end
 
-  end
-
-  def method_name
-
-  end
+  # def save_success_message
+  #   puts "You have saved this event to your favorites."
+  #   get_user_selection
+  # end
+  #
+  # def display_saved_events
+  #   #@user.saved_events
+  #
+  # end
 
   def goodbye
     puts "Goodbye"
+    # Event.destroy_all
+    # Location.destroy_all
     exit
   end
 

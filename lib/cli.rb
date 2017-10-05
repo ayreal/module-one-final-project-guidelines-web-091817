@@ -12,6 +12,7 @@ class CLI
   end
 
   def get_user_selection
+    #
     puts "\nOkay #{@user.name}, what would you like to do next?"
     puts "1. Find New Events 2. Manage My Events 3. Exit"
     response = gets.chomp
@@ -19,7 +20,6 @@ class CLI
     when "1"
       get_user_location
     when "2"
-      # binding.pry
       @user.has_events? ? manage_events : no_events_message
     when "3"
       goodbye
@@ -32,6 +32,7 @@ class CLI
   end
 
   def get_user_location
+    #
     puts "\nPlease enter a 5-digit zipcode:"
     response = gets.chomp
       if response.length == 5 && response.to_i != 0
@@ -104,6 +105,8 @@ class CLI
   end
 
   def manage_events
+    puts " "
+    puts "My Saved Events This Week:"
     @user.display_saved_events
     puts "\nSelect a number to continue."
     puts "1. Delete A Saved Event 2. Find New Events 3. Exit"
@@ -123,14 +126,7 @@ class CLI
     end
   end
 
-  def display_saved_events
-    puts " "
-    puts " My Saved Events This Weekend:"
-    @user.display_saved_events
-    get_user_selection
-  end
-
-  def delete_saved_event
+  def delete_saved_event   #this is buggy, cant' type exit or go back, events not deleting?
     puts " "
     @user.display_saved_events
     puts "\nWrite the name of the event you'd like to remove or type 'go back'"
@@ -139,7 +135,6 @@ class CLI
     when "exit".downcase == "exit"
       goodbye
     when "go back".downcase == "go back"
-      binding.pry    #TYPING GO BACK HERE MAKES IT CRASH?
       get_user_selection
     else
       @user.delete_saved_event(response)

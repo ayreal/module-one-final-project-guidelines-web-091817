@@ -24,7 +24,7 @@ class Event < ActiveRecord::Base
     events.map do |event|
       # Print out the results to the user
       puts "#{count}. #{event.name} :
-      (#{event.date}) #{event.description.slice(0,130).gsub("\n", ' ').squeeze(' ')} ..."
+      (#{event.date}) #{event.description.slice(0,160).gsub("\n", ' ').squeeze(' ')} ..."
       puts " "
       id = event.id
       count += 1

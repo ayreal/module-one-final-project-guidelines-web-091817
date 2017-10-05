@@ -10,6 +10,7 @@ class Event < ActiveRecord::Base
       name = event_hash["name"]["text"].upcase
       date = event_hash["start"]["local"].slice(0,10)
       description = event_hash["description"]["text"]
+      #CONSTRAIN TO 5 OPTIONS
       e = Event.find_or_create_by(name: name, location_id: location_obj.id, date: date, description: description)
       e.keyword = user_keyword
       events << e
@@ -25,6 +26,7 @@ class Event < ActiveRecord::Base
       puts "#{count}. #{event.name} :
       #{event.description.slice(0,130).gsub("\n", ' ').squeeze(' ')} ..."
       puts " "
+      puts event.id
       count += 1
     end
   end

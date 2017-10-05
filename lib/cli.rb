@@ -57,6 +57,7 @@ class CLI
     # binding.pry
     puts "Here are some #{response} events this week near #{location.name}:"
     Event.display_events(events)  # this method puts out event choices
+    user_save_options
   end
 
   def user_save_options

@@ -19,7 +19,8 @@ class CLI
     when "1"
       get_user_location
     when "2"
-      manage_events
+      # binding.pry
+      @user.has_events? ? manage_events : no_events_message
     when "3"
       goodbye
     when "exit".downcase == "exit"
@@ -31,7 +32,7 @@ class CLI
   end
 
   def get_user_location
-    puts "\nPlease enter a 5-digit zipcode:"  # fragile -- certain zips have different data
+    puts "\nPlease enter a 5-digit zipcode:"
     response = gets.chomp
       if response.length == 5 && response.to_i != 0
         @location = Location.find_or_create_by(zipcode: response)
@@ -49,6 +50,11 @@ class CLI
     response = gets.chomp
     events = Event.generate_events(response, location)
     display_events(events, response, location)
+  end
+
+  def no_events_message
+    puts "You don't have any events yet!"
+    get_user_selection
   end
 
   def display_events(events, response, location)
@@ -75,7 +81,6 @@ class CLI
     when "exit"
       goodbye
     else
-      ## move this into the User class
       @user.save_event_to_list(response)
       save_success_message
     end
@@ -138,8 +143,8 @@ class CLI
       get_user_selection
     else
       @user.delete_saved_event(response)
+      delete_success_message
     end
-    delete_success_message
   end
 
   def goodbye

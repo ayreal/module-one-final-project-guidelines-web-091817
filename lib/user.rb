@@ -24,4 +24,8 @@ class User < ActiveRecord::Base
     self.events << event
   end
 
+  def has_events?
+    self.events != []
+  end
+
 end

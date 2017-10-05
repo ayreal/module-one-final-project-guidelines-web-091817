@@ -24,10 +24,11 @@ class Event < ActiveRecord::Base
       end
   end
 
-  def display_events(user_keyword, location_obj)
+  def self.display_events(user_keyword, location_obj)
     # keyword is a string, user_zipcode is a location obj
-    # Find the events that match the location ID of the location the user input
+    # Find the events with location_id that match location_obj.id
     binding.pry
+
 
     # Print out the results to the user
     puts "#{count}. #{event_hash["name"]["text"]}"

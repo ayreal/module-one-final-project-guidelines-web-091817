@@ -17,10 +17,12 @@ ActiveRecord::Schema.define(version: 3) do
     t.integer "location_id"
     t.string  "date"
     t.text    "description"
+    t.text    "keyword"
   end
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
+    t.string "zipcode"
   end
 
   create_table "users", force: :cascade do |t|

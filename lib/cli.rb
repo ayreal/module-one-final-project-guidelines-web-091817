@@ -58,7 +58,6 @@ class CLI
   end
 
   def display_events(user_keyword, location)
-    binding.pry
     Event.display_events(user_keyword, location)  # this method puts out event choices
   end
 

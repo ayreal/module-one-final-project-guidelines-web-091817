@@ -8,7 +8,6 @@ class Adapter
   end
 
   def self.get_location_hash_from_zipcode(user_zipcode)
-    binding.pry
     route = "#{ZIP_ROUTE}#{user_zipcode}"
     response = RestClient.get(route)
     JSON.parse(response)[0]

@@ -28,7 +28,6 @@ class CLI
     else
       puts "That option is not valid"
       get_user_selection
-      #calls on itself?
     end
   end
 
@@ -36,34 +35,31 @@ class CLI
     puts "Please enter a 5-digit zipcode:"
     response = gets.chomp
       if response.length == 5 && response.to_i != 0
-        @location = Location.find_or_create_by(name: response) #ZIPCODE
-        user_event_choices(@location)
+        @location = Location.find_or_create_by(name: response) # "location" - ZIPCODE, a Location unstance
+        get_user_interest(@location)
       else
         puts "That is not a valid zipcode"
         get_user_location
-        #calls on itself
+        #Return to beginng of function
       end
   end
 
-  def user_event_choices(location)
-    puts "Great! Let's find free events this week near #{@location.name}!"  #need to add .name method to Location
+  def get_user_interest(location)
+    puts "Great! Let's find free events this week near #{location.name}!"
     puts "Please enter a keyword for the type of event you're looking for:"
     response = gets.chomp
-    display_events(response)
+    generate_events(response, location)
   end
 
-  def display_events(user_keyword)
-
-    puts "Here are some #{user_keyword} events this week near #{@location.name}:"
-    Event.display_events(user_keyword, @location)
-
+  def generate_events(user_keyword, location)
+    puts "Here are some #{user_keyword} events this week near #{location.name}:"
+    Event.generate_events(user_keyword, location)
+    display_events(user_keyword, location)
   end
 
-  def display_saved_events
-    #
-    # events_hash = Event.find_events_hash(user_keyword, @location)
-    # Event.display_events(events_hash)
-    # user_save_options
+  def display_events(user_keyword, location)
+    binding.pry
+    Event.display_events(user_keyword, location)  # this method puts out event choices
   end
 
   def user_save_options

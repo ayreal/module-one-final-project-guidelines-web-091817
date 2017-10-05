@@ -11,24 +11,30 @@ class Event < ActiveRecord::Base
   #
   # end
 
-  def self.display_events(user_keyword, user_zipcode)
-
-    json_events_ary = Adapter.get_events_hash(user_keyword, user_zipcode.name)
+  def self.generate_events(user_keyword, location)
+    binding.pry
+    json_events_ary = Adapter.get_events_hash(user_keyword, location.name)
     count = 1
     json_events_ary.each do |event_hash|
-      # event_hash
       name = event_hash["name"]["text"].upcase
       location = event_hash["end"]["timezone"].upcase
       date = event_hash["start"]["local"].slice(0,10)
       description = event_hash["description"]["text"]
-      self.find_or_create_by(name: name, location_id: user_zipcode.id, date: date, description: description)
+      self.find_or_create_by(name: name, location_id: location.id, date: date, description: description)
       end
-      # puts "#{count}. #{event_hash["name"]["text"]}"
-      # puts " "
-      # puts "#{event_hash["description"]["text"].slice(0,120)} ..."
-      # puts " "
-      # count += 1
-      #
+  end
+
+  def display_events(user_keyword, location)
+    # keyword is a string, user_zipcode is a location obj
+    # Find the events that match the location ID of the location the user input
+    binding.pry
+
+    # Print out the results to the user
+    puts "#{count}. #{event_hash["name"]["text"]}"
+    puts " "
+    puts "#{event_hash["description"]["text"].slice(0,120)} ..."
+    puts " "
+    count += 1
 
   end
 

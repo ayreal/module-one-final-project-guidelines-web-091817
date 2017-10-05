@@ -53,52 +53,42 @@ class CLI
   end
 
   def display_events(events, response, location)
-    # binding.pry
     puts "Here are some #{response} events this week near #{location.name}:"
-    Event.display_events(events)  # this method puts out event choices
-    #user_save_options
+    Event.display_events(events)  # this method puts out event choices, check to see if there are any
+    user_save_options
+  end
+
+  def user_save_options
+    puts "Would you like to save any of these events to your list of favorites?"
+    puts "Type the name of the event you want to save, type 'new events', or type 'exit'"
+    response = gets.chomp
+    case response
+    when "new events"
+      # persist this data to the DB
+      get_user_location
+    when "exit"
+      goodbye
+    else
+      event = Event.find_by_name(response.upcase)
+      @user.events << event
+      save_success_message
+    end
+  end
+
+  def save_success_message
+    count = @user.events.count
+    puts "You have saved this event to your favorites."
+    puts "You now have #{count} event(s) saved."
     get_user_selection
   end
 
-  # def user_save_options
-  #   puts "Select an event number to save (1-5), type 'new events', or type 'exit'"
-  #   response = gets.chomp
-  #   case response
-  #   when "1"
-  #     # persist this data to the DB
-  #     save_success_message
-  #   when "2"
-  #
-  #   when "3"
-  #
-  #   when "4"
-  #
-  #   when "5"
-  #
-  #   when "new events"
-  #     user_event_choices
-  #   when "exit"
-  #     goodbye
-  #   else
-  #     puts "That option is not valid"
-  #     user_save_options
-  #   end
-  # end
-
-  # def save_success_message
-  #   puts "You have saved this event to your favorites."
-  #   get_user_selection
-  # end
-  #
-  # def display_saved_events
-  #   #@user.saved_events
-  #
-  # end
+  def display_saved_events
+    @user.display_saved_events
+    get_user_selection
+  end
 
   def goodbye
-    puts "Goodbye"
-    # Event.destroy_all
-    # Location.destroy_all
+    puts "Enjoy your week!"
     exit
   end
 

@@ -5,7 +5,7 @@ class Event < ActiveRecord::Base
   def self.generate_events(user_keyword, location_obj)
     # CLEAN UP CODE
     json_events_ary = Adapter.get_events_hash(user_keyword, location_obj.name)
-    json_events_ary = json_events_ary[0..4]
+    json_events_ary = json_events_ary[0..4] if json_events_ary.count > 5
     events = []
     events_hash = json_events_ary.map do |event_hash|
       name = event_hash["name"]["text"].upcase
@@ -19,8 +19,6 @@ class Event < ActiveRecord::Base
 
   def self.display_events(events)
     #keyword is a string, user_zipcode is a location obj
-
-
     count = 1
     id = 0
     events.map do |event|
@@ -33,5 +31,7 @@ class Event < ActiveRecord::Base
         # break if count > 5
     end
   end
+
+
 
 end

@@ -13,17 +13,14 @@ class CLI
 
   def get_user_selection
     puts "Okay #{@user.name}, what would you like to do next?"
-    puts "1. Find New Events 2. View Your Events 3. Delete An Event 4. Exit"
+    puts "1. Find New Events 2. Manage My Events 3. Exit"
     response = gets.chomp
     case response
     when "1"
       get_user_location
     when "2"
-      display_saved_events
+      manage_events
     when "3"
-      display_saved_events
-      delete_saved_event
-    when "4"
       goodbye
     when "exit".downcase == "exit"
       goodbye
@@ -62,11 +59,13 @@ class CLI
 
   def user_save_options
     puts "Would you like to save any of these events to your list of favorites?"
-    puts "Type the name of the event you want to save, type 'new events', or type 'exit'"
+    puts "Type the name of the event you want to save, type 'new events' type 'view events' or type 'exit'"
     response = gets.chomp
     case response
     when "new events"
       get_user_location
+    when "view events"
+      manage_events
     when "exit"
       goodbye
     else
@@ -94,12 +93,32 @@ class CLI
     get_user_selection
   end
 
+  def manage_events
+    puts "Select a number to continue."
+    puts "1. View Saved Events 2. Delete A Saved Event 3. Find New Events"
+    response = gets.chomp
+    case response
+    when "1"
+      display_saved_events
+    when "2"
+      delete_saved_event
+    when "3"
+      get_user_selection
+    when "exit".downcase == "exit"
+      goodbye
+    else
+      puts "That option is not valid"
+      get_user_selection
+    end
+  end
+
   def display_saved_events
     @user.display_saved_events
     get_user_selection
   end
 
   def delete_saved_event
+    binding.pry
     puts "Write the name of the event you'd like to remove"
     response = gets.chomp
     ## move this into the User class

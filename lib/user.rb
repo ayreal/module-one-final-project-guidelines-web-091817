@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   end
 
   def delete_saved_event
+    binding.pry
   end
 
 end

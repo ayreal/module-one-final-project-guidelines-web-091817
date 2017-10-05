@@ -53,8 +53,14 @@ class CLI
 
   def display_events(events, response, location)
     puts "\nHere are some #{response} events this week near #{location.name}:"
-    Event.display_events(events)  # this method puts out event choices, check to see if there are any
-    user_save_options
+    if events.count != 0
+      Event.display_events(events)  # this method puts out event choices, check to see if there are any
+      user_save_options
+    else
+      puts "Hmm...looks like there are no recommended free #{response} events near #{location.name} this week."
+      puts "Try a different keyword or search in a different city!"
+      get_user_selection
+    end
   end
 
   def user_save_options
@@ -125,6 +131,8 @@ class CLI
     puts "\nWrite the name of the event you'd like to remove or type 'go back'"
     response = gets.chomp
     case response
+    when "exit".downcase == "exit"
+      goodbye
     when "go back".downcase == "go back"
       binding.pry    #TYPING GO BACK HERE MAKES IT CRASH?
       get_user_selection

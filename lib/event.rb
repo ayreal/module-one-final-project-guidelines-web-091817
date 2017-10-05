@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
 
   def self.generate_events(user_keyword, location_obj)
     # CLEAN UP CODE
+    # binding.pry
     json_events_ary = Adapter.get_events_hash(user_keyword, location_obj.name)
     events = []
     events_hash = json_events_ary.map do |event_hash|
@@ -20,14 +21,16 @@ class Event < ActiveRecord::Base
     # keyword is a string, user_zipcode is a location obj
     # SELECT * from events where location_id: location_obj.id and keyword: user_keyword
     # THIS NEEDS TO GENERATE AN ARRAY...DEBUG SQLQUERY
+# binding.pry
     count = 1
     events.map do |event|
       # Print out the results to the user
       puts "#{count}. #{event.name}"
       puts " "
-      puts "#{event_hash["description"]["text"].slice(0,120)} ..."
+      puts "#{event.description.slice(0,120)} ..."
       puts " "
       count += 1
     end
   end
+
 end

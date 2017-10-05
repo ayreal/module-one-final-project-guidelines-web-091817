@@ -49,16 +49,13 @@ class CLI
     puts "Great! Let's find free events this week near #{location.name}!"
     puts "Please enter a keyword for the type of event you're looking for:"
     response = gets.chomp
-    Event.generate_events(response, location)
+    events = Event.generate_events(response, location)
+    display_events(events, response, location)
   end
 
-  def generate_events(user_keyword, location)
-    Event.generate_events(user_keyword, location)
-    display_events(user_keyword, location)
-  end
-
-  def display_events(events)
-    puts "Here are some #{user_keyword} events this week near #{location.name}:"
+  def display_events(events, response, location)
+    # binding.pry
+    puts "Here are some #{response} events this week near #{location.name}:"
     Event.display_events(events)  # this method puts out event choices
   end
 

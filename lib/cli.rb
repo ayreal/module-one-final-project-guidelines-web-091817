@@ -1,6 +1,6 @@
 class CLI
   def welcome
-    cli_art_large
+    ascii_art_large
     get_user_name
   end
 
@@ -91,11 +91,11 @@ class CLI
 
   def count
     count = @user.events.count
-    puts "You now have #{count} event(s) saved."
+    puts "You now have #{count} event(s) saved.".yellow
   end
 
   def save_success_message
-    puts "\nYou have saved this event to your favorites."
+    puts "\nYou have saved this event to your favorites.".yellow
     count
     get_user_selection
   end
@@ -113,7 +113,7 @@ class CLI
     response = gets.chomp
     case response
     when "1"
-      delete_saved_event
+      delete_saved_events
     when "2"
       get_user_location
     when "3"
@@ -126,7 +126,7 @@ class CLI
     end
   end
 
-  def delete_saved_event   #this is buggy, cant' type exit or go back, events not deleting?
+  def delete_saved_events   #this is buggy, cant' type exit or go back, events not deleting?
     puts " "
     @user.display_saved_events
     puts "\nWrite the name of the event you'd like to remove or type 'go back'"
@@ -135,7 +135,8 @@ class CLI
     when "exit".downcase == "exit"
       goodbye
     when "go back".downcase == "go back"
-      get_user_selection
+      #get_user_selection
+      goodbye
     else
       @user.delete_saved_event(response)
       delete_success_message
@@ -144,12 +145,19 @@ class CLI
 
   def goodbye
     puts "\nCome back anytime to view and maintain your list of events!".blue
-    cli_art_small
+    ascii_art_small
     exit
   end
 
 
-  def cli_art_large
+
+
+
+
+
+
+
+  def ascii_art_large
   puts "\n
           `                                          /`    /:
          `-           ``             `...-.-..--....```   .:m-
@@ -192,7 +200,7 @@ d:      sNNNNNNNNm.     ``    yMMMMMMMMMMMMMMMMMMd:/smNMMMMMMMMMMNNNNNmmNMMs
   end
 
 
-  def cli_art_small
+  def ascii_art_small
     puts "\n\n                          G   O   O   D   B   Y   E\n                           - - - - - - - - - - - -\n\n\n                     ``
                ``  ``
               `       `

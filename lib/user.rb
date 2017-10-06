@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
     # check if the response is in the saved events
     response = response.upcase
     event = Event.where("name like ?", "%#{response}%").first
-    binding.pry
+    # binding.pry
     # self.events.find(event.id).destroy
     event.delete
   end

@@ -16,7 +16,8 @@ class User < ActiveRecord::Base
     response = response.upcase
     event = Event.where("name like ?", "%#{response}%").first
     # binding.pry
-    self.events.find(event.id).destroy
+    self.events.delete(event)
+
   end
 
   def save_event_to_list(response)

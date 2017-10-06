@@ -130,6 +130,8 @@ class CLI
 
   def view_saved_events
     puts " "
+
+    ###RESPONSE
     puts "\nMy Saved Events\n____________________\n\n".blue
     @user.display_saved_events
     get_user_selection
@@ -147,7 +149,9 @@ class CLI
       #get_user_selection
       goodbye
     else
+      # binding.pry
       @user.delete_saved_event(response)
+      # binding.pry
       delete_success_message
     end
   end

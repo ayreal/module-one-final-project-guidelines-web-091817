@@ -61,9 +61,7 @@ class CLI
   def display_events(events, response, location)
     if events.count != 0
       puts "\n\n\nHere are some #{response} events this week near #{location.name}:\n".yellow
-      puts_ascii_border
       Event.display_events(events)  # this method puts out event choices, check to see if there are any
-      puts_ascii_border
       user_save_options
     else
       puts "Hmm...looks like there are no recommended free #{response} events near #{location.name} this week."

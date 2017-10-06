@@ -113,7 +113,7 @@ class CLI
     response = gets.chomp
     case response
     when "1"
-      view_saved_events
+       @user.has_events? ? view_saved_events : no_events_message
     when "2"
       delete_saved_events
     when "3"
@@ -134,7 +134,7 @@ class CLI
     ###RESPONSE
     puts "\nMy Saved Events\n____________________\n\n".blue
     @user.display_saved_events
-    get_user_selection
+    manage_events
   end
 
   def delete_saved_events   #this is buggy, cant' type exit or go back, events not deleting?

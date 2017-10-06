@@ -28,7 +28,6 @@ class Event < ActiveRecord::Base
       puts " "
       id = event.id
       count += 1
-        # break if count > 5
     end
   end
 

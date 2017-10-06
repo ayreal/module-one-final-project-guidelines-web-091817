@@ -12,9 +12,9 @@ class CLI
   end
 
   def get_user_selection
-    #
     puts "\nOkay #{@user.name}, what would you like to do next?\n".blue
-    puts " 1. Find New Events\n____________________\n\n 2. Manage My Events\n____________________\n\n 3. Exit\n".blue
+    puts "1. Find New Events\n____________________\n\n2. Manage My Events\n____________________\n\n3. Exit\n".blue
+
     response = gets.chomp
     case response
     when "1"
@@ -59,11 +59,11 @@ class CLI
   end
 
   def display_events(events, response, location)
-    puts "\n\n\nHere are some #{response} events this week near #{location.name}:\n".yellow
-    puts "===========================================================================
-".magenta
     if events.count != 0
+      puts "\n\n\nHere are some #{response} events this week near #{location.name}:\n".yellow
+      puts_ascii_border
       Event.display_events(events)  # this method puts out event choices, check to see if there are any
+      puts_ascii_border
       user_save_options
     else
       puts "Hmm...looks like there are no recommended free #{response} events near #{location.name} this week."
@@ -73,8 +73,8 @@ class CLI
   end
 
   def user_save_options
-    puts "\nWould you like to save any of these events to your list of favorites?"
-    puts "Type the name of the event you want to save, type 'new events' type 'view events' or type 'exit'"
+    puts "\nWould you like to save any of these events to your list of favorites?".blue
+    puts "Type the name of the event you want to save, type 'new events' type 'view events' or type 'exit'".blue
     response = gets.chomp
     case response
     when "new events"
@@ -108,15 +108,14 @@ class CLI
 
   def manage_events   #calling on the instance of user??
     puts " "
-    puts "My Saved Events This Week:"
-    puts "\nSelect a number to continue."
-    puts "1. Delete A Saved Event 2. Find New Events 3. Exit"
+    puts "\nSelect a number to continue.\n".blue
+    puts "1. Delete A Saved Event\n____________________\n\n2. Find New Events\n____________________\n\n3. Exit\n____________________\n\n".blue
     response = gets.chomp
     case response
     when "1"
       delete_saved_event
     when "2"
-      get_user_selection
+      get_user_location
     when "3"
       goodbye
     when "exit".downcase == "exit"
@@ -144,7 +143,7 @@ class CLI
   end
 
   def goodbye
-    puts "\nCome back anytime to view and maintain your list of events!"
+    puts "\nCome back anytime to view and maintain your list of events!".blue
     cli_art_small
     exit
   end
@@ -188,7 +187,9 @@ d:      sNNNNNNNNm.     ``    yMMMMMMMMMMMMMMMMMMd:/smNMMMMMMMMMMNNNNNmmNMMs
    \n\n\nFind the best free events this week near you!".blue
   end
 
-
+  def puts_ascii_border
+    puts "===========================================================================".magenta
+  end
 
 
   def cli_art_small

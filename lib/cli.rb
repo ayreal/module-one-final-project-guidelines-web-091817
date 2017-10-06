@@ -1,6 +1,6 @@
 class CLI
   def welcome
-    ascii_art_large
+    cli_art_large
     get_user_name
   end
 
@@ -109,14 +109,16 @@ class CLI
   def manage_events   #calling on the instance of user??
     puts " "
     puts "\nSelect a number to continue.\n".blue
-    puts "1. Delete A Saved Event\n____________________\n\n2. Find New Events\n____________________\n\n3. Exit\n____________________\n\n".blue
+    puts "\n1. View Saved Events\n____________________\n\n2. Delete A Saved Event\n____________________\n\n3. Find New Events\n____________________\n\n4. Exit\n____________________\n\n".blue
     response = gets.chomp
     case response
     when "1"
-      delete_saved_events
+      view_saved_events
     when "2"
-      get_user_location
+      delete_saved_events
     when "3"
+      get_user_location
+    when "4"
       goodbye
     when "exit".downcase == "exit"
       goodbye
@@ -124,6 +126,13 @@ class CLI
       puts "That option is not valid"
       get_user_selection
     end
+  end
+
+  def view_saved_events
+    puts " "
+    puts "\nMy Saved Events\n____________________\n\n".blue
+    @user.display_saved_events
+    get_user_selection
   end
 
   def delete_saved_events   #this is buggy, cant' type exit or go back, events not deleting?
@@ -145,19 +154,13 @@ class CLI
 
   def goodbye
     puts "\nCome back anytime to view and maintain your list of events!".blue
-    ascii_art_small
+    cli_art_small
     exit
   end
 
 
 
-
-
-
-
-
-
-  def ascii_art_large
+  def cli_art_large
   puts "\n
           `                                          /`    /:
          `-           ``             `...-.-..--....```   .:m-
@@ -200,7 +203,7 @@ d:      sNNNNNNNNm.     ``    yMMMMMMMMMMMMMMMMMMd:/smNMMMMMMMMMMNNNNNmmNMMs
   end
 
 
-  def ascii_art_small
+  def cli_art_small
     puts "\n\n                          G   O   O   D   B   Y   E\n                           - - - - - - - - - - - -\n\n\n                     ``
                ``  ``
               `       `

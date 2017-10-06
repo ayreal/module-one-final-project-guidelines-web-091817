@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   def display_saved_events
     count = 1
     self.events.each do |event|
-      # binding.pry
       puts "#{count}. #{event.name} (#{event.date})"
       count += 1
     end
@@ -13,11 +12,11 @@ class User < ActiveRecord::Base
 
   def delete_saved_event(response)
     # check if the response is in the saved events
+    # binding.pry
     response = response.upcase
     event = Event.where("name like ?", "%#{response}%").first
     # binding.pry
-    # self.events.find(event.id).destroy
-    event.delete
+    self.events.find(event.id).destroy
   end
 
   def save_event_to_list(response)

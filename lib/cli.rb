@@ -103,7 +103,7 @@ class CLI
   def delete_success_message
     puts "\nYou have deleted this event from your favorites."
     count
-    get_user_selection
+    manage_events
   end
 
   def manage_events   #calling on the instance of user??
@@ -140,10 +140,10 @@ class CLI
     @user.display_saved_events
     puts "\nWrite the name of the event you'd like to remove or type 'go back'"
     response = gets.chomp
-    case response
-    when "exit".downcase == "exit"
+    case response.downcase
+    when "exit"
       goodbye
-    when "go back".downcase == "go back"
+    when "go back"
       #get_user_selection
       goodbye
     else

@@ -5,15 +5,15 @@ class CLI
   end
 
   def get_user_name
-    puts "\nWhat is your name?".blue
+    puts "\nWhat is your name?" .light_blue
     response = gets.chomp
     @user = User.find_or_create_by(name: response)  #WE HAVE MULTIPLE USERS NOW -- user_location_table?
     get_user_selection
   end
 
   def get_user_selection
-    puts "\nOkay #{@user.name}, what would you like to do next?\n".blue
-    puts "1. Find New Events\n____________________\n\n2. Manage My Events\n____________________\n\n3. Exit\n".blue
+    puts "\nOkay #{@user.name}, what would you like to do next?\n" .light_blue
+    puts "1. Find New Events\n_______________________\n\n2. Manage My Events\n_______________________\n\n3. Exit\n_______________________" .light_blue
 
     response = gets.chomp
     case response
@@ -26,28 +26,28 @@ class CLI
     when "exit".downcase == "exit"
       goodbye
     else
-      puts "That option is not valid".blue
+      puts "That option is not valid" .light_blue
       get_user_selection
     end
   end
 
   def get_user_location
     #
-    puts "\nPlease enter a 5-digit zipcode:".blue
+    puts "\nPlease enter a 5-digit zipcode:" .light_blue
     response = gets.chomp
       if response.length == 5 && response.to_i != 0
         @location = Location.find_or_create_by(zipcode: response)
         @location.get_name_from_zipcode(response) if @location.name == nil
         get_user_interest(@location)
       else
-        puts "\nThat is not a valid zipcode".blue
+        puts "\nThat is not a valid zipcode" .light_blue
         get_user_location
       end
   end
 
   def get_user_interest(location)
-    puts "\n\n\nGreat! Let's find free events this week near #{location.name}!".blue
-    puts "Please enter a keyword for the type of event you're looking for:".blue
+    puts "\n\n\nGreat! Let's find free events this week near #{location.name}!" .light_blue
+    puts "Please enter a keyword for the type of event you're looking for:" .light_blue
     response = gets.chomp
     events = Event.generate_events(response, location)
     display_events(events, response, location)
@@ -60,7 +60,7 @@ class CLI
 
   def display_events(events, response, location)
     if events.count != 0
-      puts "\n\n\nHere are some #{response} events this week near #{location.name}:\n".yellow
+      puts "\n\n\nHere are some #{response} events this week near #{location.name}:\n" .light_blue
       Event.display_events(events)  # this method puts out event choices, check to see if there are any
       user_save_options
     else
@@ -71,8 +71,8 @@ class CLI
   end
 
   def user_save_options
-    puts "\nWould you like to save any of these events to your list of favorites?".blue
-    puts "Type the name of the event you want to save, type 'new events' type 'view events' or type 'exit'".blue
+    puts "\nWould you like to save any of these events to your list of favorites?" .light_blue
+    puts "Type the name of the event you want to save, type 'new events' type 'view events' or type 'exit'" .light_blue
     response = gets.chomp
     case response
     when "new events"
@@ -89,25 +89,25 @@ class CLI
 
   def count
     count = @user.events.count
-    puts "You now have #{count} event(s) saved.".yellow
+    puts "You now have #{count} event(s) saved." .light_blue
   end
 
   def save_success_message
-    puts "\nYou have saved this event to your favorites.".yellow
+    puts "\nYou have saved this event to your favorites." .light_blue
     count
     get_user_selection
   end
 
   def delete_success_message
-    puts "\nYou have deleted this event from your favorites."
+    puts "\nYou have deleted this event from your favorites.".light_blue
     count
     manage_events
   end
 
   def manage_events   #calling on the instance of user??
     puts " "
-    puts "\nSelect a number to continue.\n".blue
-    puts "\n1. View Saved Events\n____________________\n\n2. Delete A Saved Event\n____________________\n\n3. Find New Events\n____________________\n\n4. Exit\n____________________\n\n".blue
+    puts "\nSelect a number to continue.\n" .light_blue
+    puts "\n1. View Saved Events\n_______________________\n\n2. Delete A Saved Event\n_______________________\n\n3. Find New Events\n_______________________\n\n4. Exit\n_______________________\n\n" .light_blue
     response = gets.chomp
     case response
     when "1"
@@ -130,7 +130,7 @@ class CLI
     puts " "
 
     ###RESPONSE
-    puts "\nMy Saved Events\n____________________\n\n".blue
+    puts "\nMy Saved Events\n____________________\n\n" .light_blue
     @user.display_saved_events
     manage_events
   end
@@ -138,7 +138,7 @@ class CLI
   def delete_saved_events   #this is buggy, cant' type exit or go back, events not deleting?
     puts " "
     @user.display_saved_events
-    puts "\nWrite the name of the event you'd like to remove or type 'go back'"
+    puts "\nWrite the name of the event you'd like to remove or type 'go back'".light_blue
     response = gets.chomp
     case response.downcase
     when "exit"
@@ -155,7 +155,7 @@ class CLI
   end
 
   def goodbye
-    puts "\nCome back anytime to view and maintain your list of events!".blue
+    puts "\nCome back anytime to view and maintain your list of events!" .light_blue
     cli_art_small
     exit
   end
@@ -164,66 +164,26 @@ class CLI
 
   def cli_art_large
   puts "\n
-          `                                          /`    /:
-         `-           ``             `...-.-..--....```   .:m-
-                      .:`     ..     -.``/-.```:-```....-yhdMm          `
-     ./`   `/+-../o:          .` `:..-:-....:`  .       `odoMN . `      -o.
-            .od:+mNm. `       ` ..:--.`..:```            `oMMMyso+       ``
-             `+ymN:.``/.      `-````.-`                   -mMMMso:+.  ``
-``            `-dm- `   `/.   -.   ````    `..             hMMMmys-:` `:
--s-            `yNm/     ```` `...`./:/`  `:`:`  `-`.-:.`..hMMMMmys:`       -`
-```             -NNN+     -:` ``.+s//:-`  .:..``-//.`-+-.``hMMMdo/--.       ``
-                 oMMN+     ` .odNNMNhs-....:::::::-.:--`   sMMM/````  `-`
-  `-/yhmmo//`    `mMMN:     `yMMMMMMMMh     ``````..`` `/:`.MMMy     `hhhy/-` .
- -mNMMMMMMMMy.    /NMMm`    /MMMMMMMMMN.  `    ..     `oNNd+mMMy    `/MMMMMNmho
- sNMMMMMMMMMMo    `hMMMo    :MMMMMMMMMMo `::    `   `:dNMMMMNMMh`  `oNMMMMMMMMM
- sMMMMMMMMMMN-     +MMMd    `MMMMMMMMMNo   `  -`   :hNMMMMNo+MMNo:ymNMMMMMMMMMM
--mMMMMMMMMMMMo    -mMMm:    `mMMMMMMMMd`     `+`:+sNMMMMMd/``dMMm`hMMMMMMMMMMMM
-`odNMMMMMMMMM/   /NMMN: `:`  -hNMMMMMM/   .::.-+NMMMMMMMy.`  /MMM+hMMMMMMMMMMMM
-`  .-osdMMMMMm`  -mMMN/ `.-..`/s-yNMMMM+o/smNNmmNMMMMMMd/`.`  `hMMNNNMMMmNMMMMMM
-   -`./NMMMh-.+ymMMMdoo/mmmmdhM:.hMNmNNNMMMMMMMMMMMMNy-  -`   .mNNmoMMMmNMMMMMM
-   .```mMMMmshNNMMMMMMMNMMMMMNMNsyd+.-:dMMMMMMMMMMh/:` `       /NNmdmNNMhsdNNh/
-   `./oNMMMNmyymNMMMMMMMMMMMNmmNMm/`   /MMMMMMMMm+.` ``/`     `/hhyyyhhhho+/-``
- `oydmdhhmMMMNyymmhmMMMMMMMNhssyNMNo`  `mMMMMMMM/  `:``.      -yyyyyyyyyyyyy+-.
-`smNNNNmdydNMMmsdm+.:osymMMMNdhdNMMNs`  yMMMMMMMh   `    `    -yyyyyyyyyyyyyyyy
-+NNNNNNNNmhymMNyhNm:    .dMMMMMMMMMMMy` oMMMMMMMM`       :-   `syyyyyyhdmhyyyyy
-.dNNNNNNNNNNdydNhyNmd:   `-dMMMMMMMMMMMy`oMMMMMMMM`       ``  .+yyyyyyydMMNhosyy
-hMMMmdNNNNNNNmyyyhNNm/   ``.dMMMMMMMMMMNooMMMMMMMM`         .+syyyyyyyydMMMd+:yy
-MMMN/.hNNNNNNNmssdNm+`      /MMMMMMMMMMMMmMMMMMMMM`      .-`:yyyyyyyyyyhNMNy+.sy
-MMm:  .hNNNNNNNddmNs`       `hmMMMMMMMMMMMMMMMMMMd``-.--./m:`syyyyyyyyy+mMMs `.:
-Md-    .mNNNNNNNNmy`         `+MMMMMMMMMMMMMMMMMM+``yhddddNmohdhhhhhhh+.mMMs
-d:      sNNNNNNNNm.     ``    yMMMMMMMMMMMMMMMMMMd:/smNMMMMMMMMMMNNNNNmmNMMs
-`      `-hmNNNNNNN/     ..    +MMMMMMMMMMMMMMMMMMMm:--:osyoooddmmmNNmNNMMMNo
-      `odmNNNNNNNh`          hMMMMMMMMMMMMMMMMMMMM/`...`   `yyyyyys.-:+oo/`
-     .hNNNNNNNNNNNo         .MMMMMMMMMMMMMMMMMMMMM+        `yyyyyys.           \n".magenta
+
+       O))                                                           O))
+    O)                                                              O))
+  O)O) O)O) O)))   O))       O))    O))     O))   O))    O)) O))  O)O) O) O))))
+    O))   O))    O)   O))  O)   O))  O))   O))  O)   O))  O))  O))  O))  O))
+    O))   O))   O))))) O))O))))) O))  O)) O))  O))))) O)) O))  O))  O))    O)))
+    O))   O))   O)        O)           O)O))   O)         O))  O))  O))      O))
+    O))  O)))     O))))     O))))       O))      O))))   O)))  O))   O)) O)) O))
+                                                                                ".light_blue
    puts puts "\n\n                        W   E   L   C   O   M   E  ! \n                        - - - - - - - - - - - - - -
-   \n\n\nFind the best free events this week near you!".blue
+   \n\n\nFind the best free events this week near you!" .light_blue
   end
 
   def puts_ascii_border
-    puts "===========================================================================".magenta
+    puts "===========================================================================".light_blue
   end
 
 
   def cli_art_small
-    puts "\n\n                          G   O   O   D   B   Y   E\n                           - - - - - - - - - - - -\n\n\n                     ``
-               ``  ``
-              `       `
-            `/`        +:`
-          `:syo`      /sss/.
-        `:oyyyyo`    .ssssso-``
-      `` .-/+syyo`   oss+-`    ```
-    `-`       `-::  -:.           ```
-  .:/+-                           ``````
-`./++++/                           ````   ```
-`    .:/++-                         ``         ss+-`
-     .:/`                                   yddddh:````
-                                            yddds.    `/::-..`
-                                            ydy-       /++++:`   :++//::````
-                                            o-         :++/-     `syyyy/
-                                                       -+:`       :yyy/
-                                                       .-          oy/
-                                                                   ./       \n".blue
+    puts "\n\n                          G   O   O   D   B   Y   E  (∗ ･‿･)ﾉ゛\n                          - - - - - - - - - - - - -\n\n\n".light_blue
   end
 
 
